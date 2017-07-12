@@ -26,6 +26,17 @@ function Snake(x, y) {
           this.x += 25;
           break;
     }
+
+    if (this.x < 0 || this.x >= width || this.y < 0 || this.y >= height) {
+      gameOver();
+    }
+
+    for (var i = 0; i < this.parts.length; i++) {
+      if (this.x == this.parts[i].x && this.y == this.parts[i].y) {
+        gameOver();
+      }
+    }
+
     for (var i = this.parts.length - 1; i >= 0; i--) {
       if (i == 0) {
         this.parts[i].move(this.x, this.y);

@@ -31,19 +31,33 @@ function draw() {
   snake.show();
 }
 
+function gameOver() {
+  noLoop();
+  fill(255);
+  textSize(62);
+  textAlign(CENTER);
+  text("GAME OVER", width / 2, height / 2);
+  textSize(28);
+  text("Score: " + score, width / 2, height / 2 + 42);
+}
+
 function keyPressed() {
   switch (keyCode) {
     case 38:
-      snake.dir = 'UP';
+      if (snake.dir != 'DOWN')
+        snake.dir = 'UP';
       break;
     case 40:
-      snake.dir = 'DOWN';
+      if (snake.dir != 'UP')
+        snake.dir = 'DOWN';
       break;
     case 37:
-      snake.dir = 'LEFT';
+      if (snake.dir != 'RIGHT')
+        snake.dir = 'LEFT';
       break;
     case 39:
-      snake.dir = 'RIGHT';
+      if (snake.dir != 'LEFT')
+        snake.dir = 'RIGHT';
       break;
   }
 }
