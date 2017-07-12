@@ -1,15 +1,33 @@
 var snake;
+var food;
+var score;
 
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(750, 500);
   snake = new Snake(width / 2, height / 2);
+  var fx = Math.round(random(0, width - 25) / 25) * 25;
+  var fy = Math.round(random(0, height - 25) / 25) * 25;
+  food = new Food(fx, fy);
+  score = 0;
 }
 
 function draw() {
   background(50);
-  if (frameCount % 20 == 0) {
+  food.show();
+  if (frameCount % 10 == 0) {
     snake.update();
+    if (food.x == snake.x && food.y == snake.y) {
+      snake.eat();
+      var fx = Math.round(random(0, width - 25) / 25) * 25;
+      var fy = Math.round(random(0, height - 25) / 25) * 25;
+      food = new Food(fx, fy);
+      score += 5;
+    }
   }
+  fill(255);
+  textSize(18);
+  textAlign(LEFT);
+  text("Score: " + score, 5, 20);
   snake.show();
 }
 
@@ -27,57 +45,5 @@ function keyPressed() {
     case 39:
       snake.dir = 'RIGHT';
       break;
-  }
-}
-
-function Snake(x, y) {
-  this.parts = [];
-  this.length = 5;
-  this.dir = 'UP';
-  this.x = x;
-  this.y = y;
-  for (var i = 0; i < this.length; i++) {
-    this.parts.push(new Part(this.x, this.y + i * 25));
-  }
-
-  this.update = function () {
-    switch(this.dir) {
-      case 'UP':
-          this.y -= 25;
-          break;
-      case 'DOWN':
-          this.y += 25;
-          break;
-      case 'LEFT':
-          this.x -= 25;
-          break;
-      case 'RIGHT':
-          this.x += 25;
-          break;
-    }
-    for (var i = this.parts.length - 1; i >= 0; i--) {
-      if (i == 0) {
-        this.parts[i].move(this.x, this.y);
-      } else {
-        this.parts[i].move(this.parts[i - 1].x, this.parts[i - 1].y);
-      }
-    }
-  }
-
-  this.show = function() {
-    for (var i = 0; i < this.parts.length; i++) {
-      fill(0, 225, 0);
-      rect(this.parts[i].x, this.parts[i].y, 25, 25);
-    }
-  }
-
-  function Part(x, y) {
-    this.x = x;
-    this.y = y;
-
-    this.move = function(x, y) {
-      this.x = x;
-      this.y = y;
-    }
   }
 }
