@@ -28,6 +28,9 @@ function draw() {
   textSize(18);
   textAlign(LEFT);
   text("Score: " + score, 5, 20);
+  if (snake.collision()) {
+    gameOver();
+  }
   snake.show();
 }
 
@@ -39,6 +42,8 @@ function gameOver() {
   text("GAME OVER", width / 2, height / 2);
   textSize(28);
   text("Score: " + score, width / 2, height / 2 + 42);
+  textSize(18);
+  text("Press the spacebar to restart", width / 2, height / 2 + 72);
 }
 
 function keyPressed() {
@@ -58,6 +63,10 @@ function keyPressed() {
     case 39:
       if (snake.dir != 'LEFT')
         snake.dir = 'RIGHT';
+      break;
+    case 32:
+      setup();
+      loop();
       break;
   }
 }
